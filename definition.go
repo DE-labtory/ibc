@@ -1,7 +1,11 @@
 package ibc
 
+import "fmt"
+
 type Identifier string
-type Value string
+
+// TODO : MUST REDEFINE IT!
+type Value interface{}
 
 type Path string
 
@@ -11,8 +15,21 @@ func (p Path) isValid() bool {
 	return false
 }
 
-type ConsensusStatue bool
-type CommitmentPrefix string
+func clientStatePath(id Identifier) Path {
+	return Path(fmt.Sprintf("clients/%s/state", id))
+}
 
 type Datagram struct {
 }
+
+type Packet struct {
+	sequence      int
+	timeoutHeight int
+	sourcePort    Identifier
+	sourceChannel Identifier
+	destPort      Identifier
+	destChannel   Identifier
+	data          []byte
+}
+
+type OpaquePacket interface{}
