@@ -11,8 +11,17 @@ func (p Path) isValid() bool {
 	return false
 }
 
-type ConsensusStatue bool
-type CommitmentPrefix string
-
 type Datagram struct {
 }
+
+type Packet struct {
+	sequence int
+	timeoutHeight int
+	sourcePort Identifier
+	sourceChannel Identifier
+	destPort Identifier
+	destChannel Identifier
+	data []byte
+}
+
+type OpaquePacket interface{}
