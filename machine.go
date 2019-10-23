@@ -22,7 +22,7 @@ package ibc
 */
 
 type HostStateMachine interface {
-	GetConsensusState(height uint64) ConsensusStatue
+	GetConsensusState(height uint64) ConsensusState
 	GetStoredRecentConsensusStateCount() uint64
 	GetCommitmentPrefix() CommitmentPrefix
 	SubmitDatagram(datagram Datagram)
