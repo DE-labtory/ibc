@@ -1,59 +1,37 @@
 package ibc
 
-// ConnectionState provides current state of the connection end.
-type ConnectionState int
+import "github.com/DE-labtory/ibc/spec"
 
-const (
-	// CONNINIT means state machine is initialized.
-	CONNINIT ConnectionState = 0
-
-	// CONNOPENTRY means state machine is trying to open connection.
-	CONNOPENTRY
-
-	// CONNOPEN means state machine opens connection.
-	CONNOPEN
-)
-
-// ConnectionEnd is a interface for connection end.
-type ConnectionEnd interface {
-	getState() ConnectionState
-	getCounterPartyConnectionIdentifer() Identifier
-	getCounterPartyPrefix() CommitmentPrefix
-	getClientIdentifer() Identifier
-	getCounterPartyClientIdentifer() Identifier
-	getVersion() []string
-}
-
-// ConnectionEndImpl is a temporarily implementation ConnectionEnd.
-type ConnectionEndImpl struct {
-	state                           ConnectionState
-	counterPartyConnectionIdentifer Identifier
-	counterPartyPrefix              CommitmentPrefix
-	clientIdentifier                Identifier
-	counterPartyClientIdentifer     Identifier
+// Connection is a temporarily implementation ConnectionEnd.
+type Connection struct {
+	state                           spec.ConnectionState
+	counterPartyConnectionIdentifer spec.Identifier
+	counterPartyPrefix              spec.CommitmentPrefix
+	clientIdentifier                spec.Identifier
+	counterPartyClientIdentifer     spec.Identifier
 	version                         []string
 }
 
-func (ce *ConnectionEndImpl) getState() ConnectionState {
-	return ce.state
+func (c *Connection) getState() spec.ConnectionState {
+	return c.state
 }
 
-func (ce *ConnectionEndImpl) getCounterPartyPrefix() CommitmentPrefix {
-	return ce.counterPartyPrefix
+func (c *Connection) getCounterPartyPrefix() spec.CommitmentPrefix {
+	return c.counterPartyPrefix
 }
 
-func (ce *ConnectionEndImpl) getCounterPartyConnectionIdentifer() Identifier {
-	return ce.counterPartyConnectionIdentifer
+func (c *Connection) getCounterPartyConnectionIdentifer() spec.Identifier {
+	return c.counterPartyConnectionIdentifer
 }
 
-func (ce *ConnectionEndImpl) getCounterPartyClientIdentifer() Identifier {
-	return ce.counterPartyClientIdentifer
+func (c *Connection) getCounterPartyClientIdentifer() spec.Identifier {
+	return c.counterPartyClientIdentifer
 }
 
-func (ce *ConnectionEndImpl) getClientIdentifer() Identifier {
-	return ce.clientIdentifier
+func (c *Connection) getClientIdentifer() spec.Identifier {
+	return c.clientIdentifier
 }
 
-func (ce *ConnectionEndImpl) getVersion() []string {
-	return ce.version
+func (c *Connection) getVersion() []string {
+	return c.version
 }
