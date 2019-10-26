@@ -1,4 +1,4 @@
-package ibc
+package spec
 
 import "fmt"
 
@@ -15,7 +15,7 @@ func (p Path) isValid() bool {
 	return false
 }
 
-func clientStatePath(id Identifier) Path {
+func ClientStatePath(id Identifier) Path {
 	return Path(fmt.Sprintf("clients/%s/state", id))
 }
 

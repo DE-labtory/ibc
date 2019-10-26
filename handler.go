@@ -1,234 +1,125 @@
 package ibc
 
-// Handler interface defines client-semantics, connection-semantice, channel and packet-semantics, port-allocation.
-type Handler interface {
-	// Client Lifecycle Management : ICS 2
-	CreateClient(
-		id Identifier,
-		clientType ClientType,
-		consensusState ConsensusState)
-	UpdateClient(id Identifier, header Header)
-	QueryClientConsensusState(id Identifier) ConsensusState
-	QueryClient(id Identifier) ClientState
+import "github.com/DE-labtory/ibc/spec"
 
-	// Connection Lifecycle Management : ICS 3
-	ConnOpenInit(
-		identifier Identifier,
-		desiredCounterpartyConnectionIdentifier Identifier,
-		counterpartyPrefix CommitmentPrefix,
-		clientIdentifier Identifier,
-		counterPartyClientIdentifer Identifier)
-	ConnOpenTry(
-		desiredIdentifer Identifier,
-		counterPartyConnectionIdentifier Identifier,
-		counterPartyPrefix CommitmentPrefix,
-		counterPartyClientIdentifier Identifier,
-		clientIdentifier Identifier,
-		counterPartyVersions []string,
-		proofInit CommitmentProof,
-		proofHeight int,
-		consensusHeight int)
-	ConnOpenAck(
-		identifier Identifier,
-		version string,
-		proofTry CommitmentProof,
-		proofHeight int,
-		consensusHeight int)
-	ConnOpenConfirm(
-		identifier Identifier,
-		proofAck CommitmentProof,
-		proofHeight int)
-	QueryConnection(id Identifier) (ConnectionEnd, error)
-
-	// Channel Lifecycle Management : ICS 4
-	ChanOpenInit(
-		order ChannelOrder,
-		connectionHops []Identifier,
-		portIdentifier Identifier,
-		channelIdentifier Identifier,
-		counterPartyPortIdentifier Identifier,
-		counterPartyChannelIdentifier Identifier,
-		version string)
-	ChanOpenTry(
-		order ChannelOrder,
-		connectionHops []Identifier,
-		portIdentifier Identifier,
-		channelIdentifier Identifier,
-		counterPartyPortIdentifier Identifier,
-		counterPartyChannelIdentifier Identifier,
-		version string,
-		counterPartyVersion string,
-		proofInit CommitmentProof,
-		proofHeight int)
-	ChanOpenAck(
-		portIdentifier Identifier,
-		channelIdentifier Identifier,
-		counterPartyVersion string,
-		proofTry CommitmentProof,
-		proofHeight int)
-	ChanOpenConfirm(
-		portIdentifier Identifier,
-		channelIdentifier Identifier,
-		proofAck CommitmentProof,
-		proofHeight int)
-	ChanCloseInit(
-		portIdentifier Identifier,
-		channelIdentifier Identifier)
-	ChanCloseConfirm(
-		portIdentifier Identifier,
-		channelIdentifier Identifier,
-		proofInit CommitmentProof,
-		proofHeight int)
-	QueryChannel()
-
-	// Packet Relay : ICS 4
-	SendPacket(packet Packet)
-	RecvPacket(
-		packet OpaquePacket,
-		proof CommitmentProof,
-		proofHeight int,
-		acknowledgement []byte)
-	AcknowledgePacket(
-		packet OpaquePacket,
-		acknowledgement []byte,
-		proof CommitmentProof,
-		proofHeight int)
-	TimeoutPacket(
-		packet OpaquePacket,
-		proof CommitmentProof,
-		proofHeight int,
-		nextSequenceRecv int)
-	TimeoutOnClose(
-		packet Packet,
-		proofNonMembership CommitmentProof,
-		proofClosed CommitmentProof,
-		proofHeight int)
-	CleanupPacket(
-		packet OpaquePacket,
-		proof CommitmentProof,
-		proofHeight int,
-		// TODO : modify it
-		nextSequenceRecvOrAcknowledgement interface{})
-}
-
-// HandlerModule is implementation of Handler interface.
-type HandlerModule struct {
+// Handler is implementation of Handler interface.
+type Handler struct {
 	privateStore  *PrivateStore
 	provableStore *ProvableStore
 }
 
-func (h *HandlerModule) CreateClient(id Identifier, clientType ClientType, consensusState ConsensusState) {
+func (h *Handler) CreateClient(id spec.Identifier, clientType spec.ClientType, consensusState spec.ConsensusState) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) UpdateClient(id Identifier, header Header) {
+func (h *Handler) UpdateClient(id spec.Identifier, header spec.Header) {
 	panic("implement me")
 }
 
 // QueryClientConsensusState provides specific client consensus state using identifier.
-func (h *HandlerModule) QueryClientConsensusState(id Identifier) ConsensusState {
-	return h.privateStore.get(clientStatePath(id)).(ConsensusState)
+func (h *Handler) QueryClientConsensusState(id spec.Identifier) spec.ConsensusState {
+	return h.privateStore.get(spec.ClientStatePath(id)).(spec.ConsensusState)
 }
 
-func (h *HandlerModule) QueryClient(id Identifier) ClientState {
+func (h *Handler) QueryClient(id spec.Identifier) spec.ClientState {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ConnOpenInit(identifier Identifier,
-	desiredCounterpartyConnectionIdentifier Identifier,
-	counterpartyPrefix CommitmentPrefix,
-	clientIdentifier Identifier,
-	counterPartyClientIdentifer Identifier) {
+func (h *Handler) ConnOpenInit(identifier spec.Identifier,
+	desiredCounterpartyConnectionIdentifier spec.Identifier,
+	counterpartyPrefix spec.CommitmentPrefix,
+	clientIdentifier spec.Identifier,
+	counterPartyClientIdentifer spec.Identifier) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ConnOpenTry(
-	desiredIdentifer Identifier,
-	counterPartyConnectionIdentifier Identifier,
-	counterPartyPrefix CommitmentPrefix,
-	counterPartyClientIdentifier Identifier,
-	clientIdentifier Identifier,
+func (h *Handler) ConnOpenTry(
+	desiredIdentifer spec.Identifier,
+	counterPartyConnectionIdentifier spec.Identifier,
+	counterPartyPrefix spec.CommitmentPrefix,
+	counterPartyClientIdentifier spec.Identifier,
+	clientIdentifier spec.Identifier,
 	counterPartyVersions []string,
-	proofInit CommitmentProof,
+	proofInit spec.CommitmentProof,
 	proofHeight int,
 	consensusHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ChanOpenAck(
-	portIdentifier Identifier,
-	channelIdentifier Identifier,
+func (h *Handler) ChanOpenAck(
+	portIdentifier spec.Identifier,
+	channelIdentifier spec.Identifier,
 	counterPartyVersion string,
-	proofTry CommitmentProof,
+	proofTry spec.CommitmentProof,
 	proofHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ChanOpenConfirm(
-	portIdentifier Identifier,
-	channelIdentifier Identifier,
-	proofAck CommitmentProof,
+func (h *Handler) ChanOpenConfirm(
+	portIdentifier spec.Identifier,
+	channelIdentifier spec.Identifier,
+	proofAck spec.CommitmentProof,
 	proofHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ChanCloseInit(
-	portIdentifier Identifier,
-	channelIdentifier Identifier) {
+func (h *Handler) ChanCloseInit(
+	portIdentifier spec.Identifier,
+	channelIdentifier spec.Identifier) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) ChanCloseConfirm(
-	portIdentifier Identifier,
-	channelIdentifier Identifier,
-	proofInit CommitmentProof,
+func (h *Handler) ChanCloseConfirm(
+	portIdentifier spec.Identifier,
+	channelIdentifier spec.Identifier,
+	proofInit spec.CommitmentProof,
 	proofHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) QueryChannel() {
+func (h *Handler) QueryChannel() {
 	panic("implement me")
 }
 
-func (h *HandlerModule) SendPacket(packet Packet) {
+func (h *Handler) SendPacket(packet spec.Packet) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) RecvPacket(
-	packet OpaquePacket,
-	proof CommitmentProof,
+func (h *Handler) RecvPacket(
+	packet spec.OpaquePacket,
+	proof spec.CommitmentProof,
 	proofHeight int,
 	acknowledgement []byte) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) AcknowledgePacket(
-	packet OpaquePacket,
+func (h *Handler) AcknowledgePacket(
+	packet spec.OpaquePacket,
 	acknowledgement []byte,
-	proof CommitmentProof,
+	proof spec.CommitmentProof,
 	proofHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) TimeoutPacket(
-	packet OpaquePacket,
-	proof CommitmentProof,
+func (h *Handler) TimeoutPacket(
+	packet spec.OpaquePacket,
+	proof spec.CommitmentProof,
 	proofHeight int,
 	nextSequenceRecv int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) TimeoutOnClose(
-	packet Packet,
-	proofNonMembership CommitmentProof,
-	proofClosed CommitmentProof,
+func (h *Handler) TimeoutOnClose(
+	packet spec.Packet,
+	proofNonMembership spec.CommitmentProof,
+	proofClosed spec.CommitmentProof,
 	proofHeight int) {
 	panic("implement me")
 }
 
-func (h *HandlerModule) CleanupPacket(
-	packet OpaquePacket,
-	proof CommitmentProof,
+func (h *Handler) CleanupPacket(
+	packet spec.OpaquePacket,
+	proof spec.CommitmentProof,
 	proofHeight int,
 	// TODO : modify it
 	nextSequenceRecvOrAcknowledgement interface{}) {

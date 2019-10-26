@@ -1,4 +1,4 @@
-package ibc
+package spec
 
 type PublicKey struct {
 }
