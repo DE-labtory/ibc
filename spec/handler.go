@@ -10,6 +10,9 @@ type Handler interface {
 	UpdateClient(id Identifier, header Header)
 	QueryClientConsensusState(id Identifier) ConsensusState
 	QueryClient(id Identifier) ClientState
+	ClientStatePath(id Identifier) Path
+	ClientTypePath(id Identifier) Path
+	ConsensusStatePath(id Identifier) Path
 
 	// Connection Lifecycle Management : ICS 3
 	ConnOpenInit(
@@ -107,6 +110,6 @@ type Handler interface {
 		packet OpaquePacket,
 		proof CommitmentProof,
 		proofHeight int,
-	// TODO : modify it
+		// TODO : modify it
 		nextSequenceRecvOrAcknowledgement interface{})
 }

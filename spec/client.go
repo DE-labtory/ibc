@@ -29,4 +29,13 @@ type Client interface {
 	getIdentifier() Identifier
 	getClientType() ClientType
 	getConsensusState() ConsensusState
+	checkValidityAndUpdateState(Header)
+	checkMisbehaviourAndUpdateState([]byte)
+	verifyClientConsensusState(ClientState, uint64, CommitmentProof, Identifier, ConsensusState) bool
+	verifyConnectionState(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, ConnectionEnd) bool
+	verifyChannelState(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, ChannelEnd)
+	verifyPacketCommitment(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64, []byte) bool
+	verifyPacketAcknowledgement(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64, []byte) bool
+	verifyPacketAcknowledgementAbsence(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64) bool
+	verifyNextSequenceRecv(ClientState, uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64) bool
 }
