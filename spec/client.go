@@ -6,17 +6,17 @@ type ClientType int
 
 // ClientState keeps arbitrary internal state to track verified roots and past misbehaviours.
 type ClientState struct {
-	frozen        bool
-	pastPublicKey map[string]bool
-	verifiedRoot  map[int]CommitmentRoot
+	Frozen        bool
+	PastPublicKey map[PublicKey]bool
+	VerifiedRoot  map[uint64]CommitmentRoot
 }
 
 // Header provides information to update a ConsensusState.
 type Header struct {
-	sequence       int
-	commitmentRoot CommitmentRoot
-	signature      Signature
-	newPublicKey   PublicKey
+	Sequence       uint64
+	CommitmentRoot CommitmentRoot
+	Signature      Signature
+	NewPublicKey   PublicKey
 }
 
 // Evidence has candidate headers which may be misbehaviours.
@@ -29,4 +29,15 @@ type Client interface {
 	getIdentifier() Identifier
 	getClientType() ClientType
 	getConsensusState() ConsensusState
+	checkValidityAndUpdateState(Header)
+	checkMisbehaviourAndUpdateState([]byte)
+	verifyMembership(uint64, CommitmentProof, Path, Value) bool
+	verifyNonMembership(uint64, CommitmentProof, Path) bool
+	verifyClientConsensusState(uint64, CommitmentProof, Identifier, ConsensusState) bool
+	verifyConnectionState(uint64, CommitmentPrefix, CommitmentProof, Identifier, ConnectionEnd) bool
+	verifyChannelState(uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, ChannelEnd)
+	verifyPacketCommitment(uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64, []byte) bool
+	verifyPacketAcknowledgement(uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64, []byte) bool
+	verifyPacketAcknowledgementAbsence(uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64) bool
+	verifyNextSequenceRecv(uint64, CommitmentPrefix, CommitmentProof, Identifier, Identifier, uint64) bool
 }

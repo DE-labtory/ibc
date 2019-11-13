@@ -5,8 +5,8 @@ type Consensus func(ConsensusState, []Message) Header
 
 // ConsensusState is used by the validity predicate to verify new commits & state roots.
 type ConsensusState struct {
-	sequence  int
-	publicKey PublicKey
+	Sequence  uint64
+	PublicKey PublicKey
 }
 
 type Message interface{}

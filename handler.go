@@ -1,6 +1,9 @@
 package ibc
 
-import "github.com/DE-labtory/ibc/spec"
+import (
+	"fmt"
+	"github.com/DE-labtory/ibc/spec"
+)
 
 // Handler is implementation of Handler interface.
 type Handler struct {
@@ -23,6 +26,18 @@ func (h *Handler) QueryClientConsensusState(id spec.Identifier) spec.ConsensusSt
 
 func (h *Handler) QueryClient(id spec.Identifier) spec.ClientState {
 	panic("implement me")
+}
+
+func (h *Handler) ClientStatePath(id spec.Identifier) spec.Path {
+	return spec.Path(fmt.Sprintf("clients/%s/state", id))
+}
+
+func (h *Handler) ClientTypePath(id spec.Identifier) spec.Path {
+	return spec.Path(fmt.Sprintf("clients/%s/type", id))
+}
+
+func (h *Handler) ConsensusStatePath(id spec.Identifier) spec.Path {
+	return spec.Path(fmt.Sprintf("clients/%s/consensusState", id))
 }
 
 func (h *Handler) ConnOpenInit(identifier spec.Identifier,

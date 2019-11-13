@@ -28,6 +28,15 @@ const (
 	UNORDERED
 )
 
+type ChannelEnd struct {
+	state                        ChannelState
+	ordering                     ChannelOrder
+	counterpartPortIdentifier    Identifier
+	coutnerpartChannelIdentifier Identifier
+	connectionHops               []Identifier
+	version                      string
+}
+
 type Channel interface {
 	getState() ChannelState
 	getOrdering() ChannelOrder
