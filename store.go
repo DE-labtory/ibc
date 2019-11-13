@@ -3,31 +3,39 @@ package ibc
 import "github.com/DE-labtory/ibc/spec"
 
 type ProvableStore struct {
+	store map[spec.Path]spec.Value
 }
 
-func (*ProvableStore) get(path spec.Path) spec.Value {
-	panic("implement me")
+func (ps *ProvableStore) get(path spec.Path) spec.Value {
+	if value, ok := ps.store[path]; ok {
+		return value
+	}
+	return nil
 }
 
-func (*ProvableStore) set(path spec.Path, value spec.Value) {
-	panic("implement me")
+func (ps *ProvableStore) set(path spec.Path, value spec.Value) {
+	ps.store[path] = value
 }
 
-func (*ProvableStore) delete(path spec.Path) {
-	panic("implement me")
+func (ps *ProvableStore) delete(path spec.Path) {
+	delete(ps.store, path)
 }
 
 type PrivateStore struct {
+	store map[spec.Path]spec.Value
 }
 
-func (*PrivateStore) get(path spec.Path) spec.Value {
-	panic("implement me")
+func (ps *PrivateStore) get(path spec.Path) spec.Value {
+	if value, ok := ps.store[path]; ok {
+		return value
+	}
+	return nil
 }
 
-func (*PrivateStore) set(path spec.Path, value spec.Value) {
-	panic("implement me")
+func (ps *PrivateStore) set(path spec.Path, value spec.Value) {
+	ps.store[path] = value
 }
 
-func (*PrivateStore) delete(path spec.Path) {
-	panic("implement me")
+func (ps *PrivateStore) delete(path spec.Path) {
+	delete(ps.store, path)
 }
