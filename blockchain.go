@@ -1,8 +1,6 @@
 package ibc
 
-import (
-	"github.com/DE-labtory/ibc/spec"
-)
+import "github.com/DE-labtory/ibc/spec"
 
 type Blockchain struct {
 	genesis   spec.ConsensusState
