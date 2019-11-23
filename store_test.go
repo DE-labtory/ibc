@@ -1,6 +1,8 @@
 package ibc
 
 import (
+	"encoding/json"
+	"reflect"
 	"testing"
 
 	"github.com/DE-labtory/ibc/spec"
@@ -13,11 +15,11 @@ func TestProvableStoreGet(t *testing.T) {
 	}{
 		{
 			key:      spec.Path("testKey"),
-			expected: "testValue",
+			expected: spec.Value("testValue"),
 		},
 		{
 			key:      spec.Path("testKey2"),
-			expected: "testValue2",
+			expected: spec.Value("testValue2"),
 		},
 		{
 			key:      spec.Path("testKey3"),
@@ -33,7 +35,8 @@ func TestProvableStoreGet(t *testing.T) {
 
 	for i, test := range tests {
 		result := provableStore.get(test.key)
-		if result != test.expected {
+		um := json.Unmarshal(result, spec.Value{})
+		if reflect.DeepEqual(result, um) {
 			t.Fatalf("test [%d] failed : value : %v, actual : %v", i, test.expected, result)
 		}
 	}
@@ -83,11 +86,11 @@ func TestPrivateStoreGet(t *testing.T) {
 	}{
 		{
 			key:      spec.Path("testKey"),
-			expected: "testValue",
+			expected: spec.Value("testValue"),
 		},
 		{
 			key:      spec.Path("testKey2"),
-			expected: "testValue2",
+			expected: spec.Value("testValue2"),
 		},
 		{
 			key:      spec.Path("testKey3"),
@@ -103,7 +106,8 @@ func TestPrivateStoreGet(t *testing.T) {
 
 	for i, test := range tests {
 		result := privateStore.get(test.key)
-		if result != test.expected {
+		um := json.Unmarshal(result, spec.Value{})
+		if reflect.DeepEqual(um, test.expected) {
 			t.Fatalf("test [%d] failed : value : %v, actual : %v", i, test.expected, result)
 		}
 	}
