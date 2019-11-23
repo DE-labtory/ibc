@@ -8,8 +8,8 @@ type Handler interface {
 		clientType ClientType,
 		consensusState ConsensusState)
 	UpdateClient(id Identifier, header Header)
-	QueryClientConsensusState(id Identifier) ConsensusState
-	QueryClient(id Identifier) ClientState
+	QueryClientConsensusState(id Identifier) *ConsensusState
+	QueryClient(id Identifier) *ClientState
 
 	// Connection Lifecycle Management : ICS 3
 	ConnOpenInit(
@@ -38,7 +38,7 @@ type Handler interface {
 		identifier Identifier,
 		proofAck CommitmentProof,
 		proofHeight int)
-	QueryConnection(id Identifier) (ConnectionEnd, error)
+	QueryConnection(id Identifier) (*ConnectionEnd, error)
 
 	// Channel Lifecycle Management : ICS 4
 	ChanOpenInit(
@@ -79,7 +79,7 @@ type Handler interface {
 		channelIdentifier Identifier,
 		proofInit CommitmentProof,
 		proofHeight int)
-	QueryChannel()
+	QueryChannel() *Channel
 
 	// Packet Relay : ICS 4
 	SendPacket(packet Packet)

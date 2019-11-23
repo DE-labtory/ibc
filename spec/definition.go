@@ -5,7 +5,7 @@ import "fmt"
 type Identifier string
 
 // TODO : MUST REDEFINE IT!
-type Value interface{}
+type Value []byte
 
 type Path string
 

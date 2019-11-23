@@ -1,6 +1,9 @@
 package ibc
 
-import "github.com/DE-labtory/ibc/spec"
+import (
+	"encoding/json"
+	"github.com/DE-labtory/ibc/spec"
+)
 
 // Handler is implementation of Handler interface.
 type Handler struct {
@@ -17,8 +20,14 @@ func (h *Handler) UpdateClient(id spec.Identifier, header spec.Header) {
 }
 
 // QueryClientConsensusState provides specific client consensus state using identifier.
-func (h *Handler) QueryClientConsensusState(id spec.Identifier) spec.ConsensusState {
-	return h.privateStore.get(spec.ClientStatePath(id)).(spec.ConsensusState)
+func (h *Handler) QueryClientConsensusState(id spec.Identifier) *spec.ConsensusState {
+	get := h.privateStore.get(spec.ClientStatePath(id))
+	result := spec.ConsensusState{}
+	err := json.Unmarshal(get, result)
+	if err != nil {
+		return nil
+	}
+	return &result
 }
 
 func (h *Handler) QueryClient(id spec.Identifier) spec.ClientState {
